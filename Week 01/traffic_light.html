@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <style >
+      li {
+        margin: 20px;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: gray;
+      }
+      .green {
+        background-color: green;
+      }
+      .yellow {
+        background-color: yellow;
+      }
+      .red {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </body>
+  
+  <script>
+    let li = document.getElementsByTagName("li");
+    
+    function sleep(t) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve()
+        }, t);
+      })
+    }
+    
+    function go() {
+      li[0].className="green"
+      li[1].className=""
+      li[2].className=""
+      sleep(10000).then(() => {
+        li[0].className = ""
+        li[1].className="yellow"
+        li[2].className=""
+        return sleep(2000)
+      }).then(() => {
+        li[0].className = ""
+        li[1].className=""
+        li[2].className="red"
+        return sleep(5000)
+      }).then(() => {
+        go();
+      })
+    }
+
+   go();
+</script>
+
+</html>
