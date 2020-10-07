@@ -79,9 +79,9 @@
         show();
 
         function move(x, y) {
-            console.log(x, y, color)
+            // console.log(x, y, color)
             pattern[x * 5 + y] = color;
-            console.log(pattern)
+            // console.log(pattern)
             if(check(pattern,  color)) {
                 alert(color == 2 ? 'X is winner': 'O is winner')
             }
@@ -111,7 +111,7 @@
             let startX = Math.floor(Math.random() * 5);
             let startY = Math.floor(Math.random() * 5);
             let choice = bestChoice(pattern, color, startX, startY);
-            console.log(choice)
+            // console.log(choice)
             if(choice.point) {
                 pattern[choice.point[0] * 5 + choice.point[1]] = color;
             }
@@ -224,7 +224,6 @@
                         point = [i, j]
                     }
                     depth++;
-                    console.log(depth, maxDepth)
                 }
             }
 
@@ -247,8 +246,7 @@
                         point = [i, j]
                     }
                     depth++;
-                    // console.log(depth, maxDepth)
-                }
+                 }
             }
             return {
                 point,

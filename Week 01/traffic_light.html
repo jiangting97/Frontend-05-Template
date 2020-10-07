@@ -29,7 +29,7 @@
   </body>
   
   <script>
-    let li = document.getElementsByTagName("li");
+    
     
     function sleep(t) {
       return new Promise((resolve) => {
@@ -38,20 +38,23 @@
         }, t);
       })
     }
-    
-    function go() {
-      li[0].className="green"
+
+    function showLight(target, color) {
+      let li = document.getElementsByTagName("li");
+      li[0].className=""
       li[1].className=""
       li[2].className=""
+      li[target].className = color
+    }
+    
+    function go() {
+      showLight(0, "green");
+    
       sleep(10000).then(() => {
-        li[0].className = ""
-        li[1].className="yellow"
-        li[2].className=""
+        showLight(1, "yellow");
         return sleep(2000)
       }).then(() => {
-        li[0].className = ""
-        li[1].className=""
-        li[2].className="red"
+        showLight(2, "red");
         return sleep(5000)
       }).then(() => {
         go();
