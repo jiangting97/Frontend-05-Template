@@ -7,7 +7,7 @@
             if(!source || !pattern) {
                 return;
             }
-            // 计算跳转表格处理自重复
+            // 计算匹配表格处理自重复
             let table = new Array(pattern.length).fill(0)
             {
                 let i = 1;
@@ -39,7 +39,8 @@
                         ++j;
                     } else {
                         if(j > 0) {
-                            j = table[j]
+                            j = table[j]  // 模式串的匹配位置
+                            console.log(j, table[j])
                         } else {
                             ++i;
                         }
@@ -53,7 +54,7 @@
             
         }
 
-        let result = kmp("ddaabcaaed", "aabcaaed");
+        let result = kmp("ddaabcaaed", "aae");
         console.log(result)
     
     </script>

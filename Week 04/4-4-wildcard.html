@@ -3,42 +3,44 @@
     <body></body>
     <script>
         function find(source, pattern) {
+            console.log('source is', source)
+            console.log('pattern is ', pattern)
+            let starCount = 0; // 找出*数量
 
-           let starCount = 0; // 找出*数量
-
-           for(let i = 0; i < pattern.length; i++) {
+            for(let i = 0; i < pattern.length; i++) {
                if(pattern[i] === '*') {
                     starCount++ ;
                }
-           }
-           if(starCount === 0) {  // 1.处理没有*号的情况
+            }
+            if(starCount === 0) {  // 1.处理没有*号的情况
                for(let i = 0; i < pattern.length; i++) {
                    if(pattern[i] != source[i] && pattern[i] !== '?') {
                        return false;
                    }
                }
                return true;
-           }
+            }
 
-           let i = 0;
-           let lastIndex = 0;
-           for(i = 0; pattern[i] !== '*'; i++) {  // 第一个*的部分
+            let i = 0;
+            let lastIndex = 0; // source 位置
+            for(i = 0; pattern[i] !== '*'; i++) {  // 第一个*的部分
                if(pattern[i] !== source[i] && pattern[i] !== '?') {
                    return false;
                }
-           }
+            }
 
-           lastIndex = i;
+            console.log('i =  ', i, source[i])
+            lastIndex = i;  
 
             for(let p = 0; p < starCount - 1; p++) {  // 1 到 lengh - 1 的*号处理
                 i++;
                 let subPattern = '';
-                while(pattern[i] !== '*') {
+                while(pattern[i] !== '*') {  // 找到* 号的子串
                     subPattern += pattern[i];
                     i++;
                 }
 
-                let reg = new RegExp(subPattern.replace(/\?/g, '[\\s\\S]'), 'g');
+                let reg = new RegExp(subPattern.replace(/\?/g, '[\\s\\S]'), 'g'); // ? 替换成任意字符
                 reg.lastIndex =  lastIndex;
                 console.log(reg.exec(source));
 
@@ -49,17 +51,16 @@
                 lastIndex = reg.lastIndex;
             }
 
-            for(let j = 0; j <= source.length - lastIndex && pattern[pattern.length - j] !== '*'; j++) {  // 结尾的匹配
+            for(let j = 0; j <= source.length - lastIndex && pattern[pattern.length - j] !== '*'; j++) {  // 结尾倒序的匹配
                 if(pattern[pattern.length - j] !== source[source.length - j] && pattern[pattern.length - j] !== "?") {
                     return false;
                 } 
             }
 
             return true;
-
         }
 
-        let result = find("abcde", "a*d*");
+        let result = find("abcdedddffaaee", "a*d*d*a*");
         console.log(result)
     </script>
 </html>
