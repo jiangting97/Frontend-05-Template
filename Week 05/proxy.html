@@ -1,0 +1,68 @@
+<html>
+    <head></head>
+    <body></body>
+    <script>
+        let callbacks = new Map();
+        let useReactivies = [];
+        let reactivites = new Map();
+
+        let object = {
+            a: {b: 3},
+            b: 2,
+        }
+
+        let po = reactive(object)
+
+        effect(() => {
+            console.log("po.a.b = ", po.a.b)
+        })
+
+        function effect(callback) {
+            // callbacks.push(callback)
+            useReactivies = []
+            callback();
+            console.log('useReactivies = ', useReactivies)
+            for(let reactivity of useReactivies) { // reactivity 为二元组
+                if(!callbacks.has(reactivity[0])) { // 没reactivity属性
+                    callbacks.set(reactivity[0], new Map());
+                }
+                if(!callbacks.get(reactivity[0]).has(reactivity[1])) { // 设置数组存储属性
+                    callbacks.get(reactivity[0]).set(reactivity[1], []);
+                }
+                callbacks.get(reactivity[0]).get(reactivity[1]).push(callback);
+            }
+        }
+
+        function reactive(object) {
+            console.log(reactivites)
+            if(reactivites.has(object)) {
+                return reactivites.get(object)
+            }
+            let proxy =  new Proxy(object, {
+                set(obj, prop, value) {
+                    obj[prop] = value;
+                    // console.log(obj, prop, value )
+                    if(callbacks.get(obj)) {
+                        if(callbacks.get(obj).get(prop)) {
+                            for(let callback of callbacks.get(obj).get(prop)) {
+                                callback();
+                            }
+                        }
+                    }
+                    return obj[prop]
+                },
+                get(obj, prop) {
+                    useReactivies.push([obj, prop]); 
+                    if(typeof obj[prop] === 'object') {
+                        reactive(obj[prop]);
+                    }
+                    console.log(obj, prop)
+                    return obj[prop]
+                }
+            })
+            reactivites.set(object, proxy)
+            return proxy
+        }
+
+    </script>
+</html>
