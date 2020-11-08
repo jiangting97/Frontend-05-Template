@@ -1,5 +1,6 @@
 ## Proxy
-1. const p = new Proxy(target, handler)
+1. proxy 基础用法
+const p = new Proxy(target, handler)
   handler 的对象方法：getPrototypeOf()、setPrototypeOf()、isExtensible()、preventExtensions()、getOwnPropertyDescriptor()defineProperty()、has()、get()、set()、deleteProperty()、ownKeys()、apply()、construct()
 
 ## DOM拖拽功能实现
