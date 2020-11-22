@@ -34,11 +34,11 @@
 #### JS函数调用
 
 1. 执行上下文：执行上下文栈（保存函数执行信息）
-    code evaluation state
-    Function
-    Script or Module
-    Generator(Generator函数创建)
-    Realm(内置对象的领域)：不同Ream完全独立
-    LexicalEnvironment（this、new.target、super、变量）
-    VariableEnvironment（仅仅用于var声明）
+    * code evaluation state
+    * Function
+    * Script or Module
+    * Generator(Generator函数创建)
+    * Realm(内置对象的领域)：不同Ream完全独立
+    * LexicalEnvironment（this、new.target、super、变量）
+    * VariableEnvironment（仅仅用于var声明）
 2. 闭包（包括Environment Record、Code）
