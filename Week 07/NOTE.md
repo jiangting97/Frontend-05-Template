@@ -12,7 +12,7 @@
 #### 简单语句和复合语句
 
 #### 声明
-var、let、const、class 函数声明（普通函数声明、async函数声明、generator函数声明、async generator函数声明）
+* var、let、const、class 函数声明（普通函数声明、async函数声明、generator函数声明、async generator函数声明）
 
 
 ### JS结构化 
