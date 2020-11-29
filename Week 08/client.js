@@ -24,14 +24,11 @@ class Request {
     }
 
     send(connection) {
-        console.log('111')
         return new Promise((resolve, reject) => {
             const parser = new ResponseParser();
             if(connection) {
-                console.log(1)
                 connection.write(this.toString())
             } else {
-                console.log('2')
                 connection = net.createConnection({
                     host: this.host,
                     port: this.port
@@ -40,7 +37,6 @@ class Request {
                 })
             }
             connection.on('data', (data) => {
-                console.log('3')
                 parser.receive(data.toString());
                 if(parser.isFinished()) {
                     resolve(paraser.response)
@@ -48,13 +44,9 @@ class Request {
                 }
             });
             connection.on('error', (err) => {
-                console.log('4')
-
-                reject(err)
+                reject(err);
                 connection.end();
-
             })
-            reject(err)
         })
     }
 
