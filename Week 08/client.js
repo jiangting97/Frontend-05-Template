@@ -128,10 +128,10 @@ class ResponseParser{
         }
     }
 
-    get isFinished() {
+   isFinished() {
         return this.bodyParser && this.bodyParser.isFinished;
     }
-    get response() {
+   response() {
         this.statusLine.match(/HTTP\/1.1 ([0-9]+) ([\s\S]+)/);
         return {
             statusCode: RegExp.$1,
