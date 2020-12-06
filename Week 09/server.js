@@ -14,9 +14,17 @@ http.createServer((request, response) => {
     response.setHeader('X-Foo', 'bar');
     response.writeHead(200, { 'Content-Type': 'text/plain' });
     response.end(`<html>
-    <head></head>
+    <head>
+      <style>
+        .test {
+          border: solid 1px red;
+        }
+      </style>
+    </head>
     <body>
-      <div>1</div>
+      <div class="test">
+        <div>abc</div>
+      </div>
     </body>
     </html>`);
   })
