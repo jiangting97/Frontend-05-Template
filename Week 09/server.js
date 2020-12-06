@@ -10,8 +10,14 @@ http.createServer((request, response) => {
   }).on('end', () => {
     // body = Buffer.concat(body).toString();
     console.log("body:", body);
-
-    response.writeHead(200, { 'Content-Type': 'text/html' });
-    response.end(' Hello World\n');
+    response.setHeader('Content-type', 'text/html')
+    response.setHeader('X-Foo', 'bar');
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.end(`<html>
+    <head></head>
+    <body>
+      <div>1</div>
+    </body>
+    </html>`);
   })
 }).listen(8888);

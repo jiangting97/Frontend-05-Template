@@ -1,5 +1,5 @@
 const net = require('net')
-// import parser from 'parse.js'
+const parser =require('./parser.js')
 class Request {
     constructor(options) {
         this.method = options.method;
@@ -209,6 +209,7 @@ async function test() {
   
   let result = await request.send();
   console.log(result);  
+  let dom = parser.parseHTML(result.body);
 }
 
 test()
