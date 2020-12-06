@@ -109,6 +109,9 @@ function computeCSS(element) {
 }
 
 function emit(token) {
+    if(token.type === "text") {
+        return ;
+    }
     let top = stack[stack.length - 1]
 
     if (token.type === 'startTag') {
@@ -167,9 +170,9 @@ function emit(token) {
 // DOM
 const EOF = Symbol("EOF")
 function data(c) {
-  if(c == "<") {
+  if(c === "<") {
     return tagOpen;
-  } else if(c == EOF) {
+  } else if(c === EOF) {
     emit({
       type: EOF
     });
@@ -185,7 +188,7 @@ function data(c) {
 
 // // 三种标签判断
 function tagOpen(c) {
-  if(c == "/") {
+  if(c === "/") {
     return endTagOpen;
   } else if(c.match(/^[a-zA-Z]$/)) {
     currentToken = {
@@ -205,10 +208,10 @@ function endTagOpen(c) {
           tagName: ""
       }
       return tagName(c);
-  } else if(c == ">") {
+  } else if(c === ">") {
     
     
-  } else if(c == EOF) {
+  } else if(c === EOF) {
     
   } else {
     
@@ -219,12 +222,12 @@ function endTagOpen(c) {
 function tagName(c) {
   if(c.match(/^[\t\n\f ]$/)) {
     return beforeAttributeName;
-  } else if(c == "/") {
+  } else if(c === "/") {
     return selfClosingStartTage;
   } else if(c.match(/^[a-zA-Z]$/)) {
     currentToken.tagName += c 
     return tagName;
-  } else if(c == ">") {
+  } else if(c === ">") {
     emit(currentToken)
     return data;
   } else {
@@ -252,13 +255,13 @@ function beforeAttributeName(c) {
 }
 
 function attributeName(c) {
-  if(c.match(/^[\t\n\f ]$/) || c == "/" || c == ">" || c == EOF) {
+  if(c.match(/^[\t\n\f ]$/) || c === "/" || c === ">" || c === EOF) {
       return afterAttributeName(c);
-  } else if(c == '=') {
+  } else if(c === '=') {
       return beforeAttributeValue;
-  } else if(c == "\u0000") {
+  } else if(c === "\u0000") {
     
-  } else if(c == "\"" || c == "'" || c == "<") {
+  } else if(c === "\"" || c === "'" || c === "<") {
       
   } else {
     currentAttribute.name += c;
@@ -290,13 +293,13 @@ function afterAttributeName(c) {
 }
 
 function beforeAttributeValue(c) {
-    if(c.match(/^[\t\n\f ]$/) || c == "/" || c == ">" || c == EOF) {
+    if(c.match(/^[\t\n\f ]$/) || c === "/" || c === ">" || c === EOF) {
       return beforeAttributeValue;
-    } else if(c == "\"") {
+    } else if(c === "\"") {
       return doubleQuotedAttributeValue;
-    } else if(c == "\'") {
+    } else if(c === "\'") {
       return singleQuotedAttributeValue;
-    } else if(c == ">") {
+    } else if(c === ">") {
       
     } else {
       return UnquotedAttributeValue(c);
@@ -304,12 +307,12 @@ function beforeAttributeValue(c) {
 }
 
 function doubleQuotedAttributeValue(c) {
-  if(c == "\"") {
+  if(c === "\"") {
     currentToken[currentAttribute.name] = currentAttribute.value;
     return afterQuotedAttributeValue;
-  } else if(c == "\u0000") {
+  } else if(c === "\u0000") {
     
-  } else if(c == EOF) {
+  } else if(c === EOF) {
     
   } else {
     currentAttribute.value += c;
@@ -318,12 +321,12 @@ function doubleQuotedAttributeValue(c) {
 }
 
 function singleQuotedAttributeValue(c) {
-  if(c == "\'") {
+  if(c === "\'") {
     currentToken[currentAttribute.name] = currentAttribute.value;
     return afterQuotedAttributeValue;
-  } else if(c == "\u0000") {
+  } else if(c === "\u0000") {
     
-  } else if(c == EOF) {
+  } else if(c === EOF) {
     
   } else {
     currentAttribute.value += c;
@@ -335,18 +338,18 @@ function UnquotedAttributeValue(c) {
   if(c.match(/^[\t\n\f ]$/)) {
     currentToken[currentAttribute.name] = currentAttribute.value;
     return beforeAttributeName;
-  } else if(c == "/") {
+  } else if(c === "/") {
     currentToken[currentAttribute.name] = currentAttribute.value
     return selfClosingStartTage;
-  } else if(c == ">") {
+  } else if(c === ">") {
     currentToken[currentAttribute.name] = currentAttribute.value
     emit(currentToken)
     return data
-  } else if(c =="\u0000") {
+  } else if(c ==="\u0000") {
     
-  } else if(c == "\"" || c == "'" || c == "<" || c == "=" || c == "`") {
+  } else if(c === "\"" || c === "'" || c === "<" || c === "=" || c === "`") {
     
-  } else if(c == EOF) {
+  } else if(c === EOF) {
     
   } else {
     currentAttribute.value += c;

@@ -197,7 +197,7 @@ async function test() {
   let request = new Request({
     method: "GET",
     host: '127.0.0.1',
-    port: '8800',
+    port: '8887',
     path: '/',
     headers: {
       ["X-Foo2"]: "customed",
