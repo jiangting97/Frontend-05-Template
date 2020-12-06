@@ -8,7 +8,7 @@ class Request {
         this.path = options.path || '/';
         this.body = options.body || {};
         this.headers = options.headers || {}
-
+        
         if(!this.headers['Content-Type']) {
             this.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         }
@@ -16,17 +16,14 @@ class Request {
         if(this.headers['Content-Type'] === "application/json") {
             this.bodytext = JSON.stringify(this.body)
         } else if(this.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
-            this.bodytext = Object.keys(this.body).map(key => `${key}=${encodeURIComponent[this.body[key]]}`).join('&');
+            this.bodytext = Object.keys(this.body).map(key => `${key}=${encodeURIComponent(this.body[key])}`).join('&');
         }
-
         this.headers['Content-length'] = this.bodytext.length
     }
 
     send(connection) {
         return new Promise((resolve, reject) => {
             const parser = new ResponseParser();
-            console.log('111')
-            console.log(connection)
             if(connection) {
                 connection.write(this.toString())
             } else {
@@ -38,9 +35,10 @@ class Request {
                 })
             }
             connection.on('data', (data) => {
+                console.log(data.toString())
                 parser.receive(data.toString());
-                if(parser.isFinished()) {
-                    resolve(paraser.response)
+                if(parser.isFinished) {
+                    resolve(parser.response)
                     connection.end();
                 }
             });
@@ -52,7 +50,11 @@ class Request {
     }
 
     toString() {
-        return `${this.method} ${this.path} HTTP/1.1\r${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\r${this.bodytext}`
+      
+        return `${this.method} ${this.path} HTTP/1.1\r
+${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r
+\r
+${this.bodytext}`
     }
 }
 
@@ -111,7 +113,7 @@ class ResponseParser{
                 this.current = this.WAITING_HEADER_LINE_END;
                 this.headers[this.headerName] = this.headerValue;
                 this.headerName = '';
-                this.headerValue = "";
+                this.headerValue = '';
             } else {
                 this.headerValue += char
             }
@@ -125,21 +127,21 @@ class ResponseParser{
                 this.current = this.WATING_BODY
             }
         } else if(this.current === this.WATING_BODY) {
-            this.bodyParser.receive(char);
+            this.bodyParser.receiveChar(char);
         }
     }
 
-   isFinished() {
+   get isFinished() {
         return this.bodyParser && this.bodyParser.isFinished;
     }
    
-    response() {
+    get response() {
         this.statusLine.match(/HTTP\/1.1 ([0-9]+) ([\s\S]+)/);
         return {
             statusCode: RegExp.$1,
             statusText: RegExp.$2,
             headers: this.headers,
-            body: this.bodyParser.conteng.join('')
+            body: this.bodyParser.content.join('')
         }
     }
 }
@@ -157,16 +159,16 @@ class TrunkedBodyParser {
         this.current = this.WAITING_LENGTH;
     }
 
-    receiveCahr(char)  {
+    receiveChar(char)  {
         if(this.current === this.WAITING_LENGTH) {
             if(char === '\r') {
-                if(this.length = 0) {
+                if(this.length === 0) {
                     this.isFinished = true;
                 }
                 this.current = this.WAITING_LENGTH_LINE_END;
             } else {
                 this.length *= 16;
-                this.length += PageTransitionEvent(char, 16);
+                this.length += parseInt(char, 16);
             }
         } else if(this.current === this.WAITING_LENGTH_LINE_END) {
             if(char === '\n') {
@@ -177,6 +179,10 @@ class TrunkedBodyParser {
             this.length--;
             if(this.length === 0) {
                 this.current = this.WAITING_NEW_LINE;
+            }
+        } else if(this.current === this.WAITING_NEW_LINE) {
+            if(char === '\r') {
+                this.current = this.WAITING_NEW_LINE_END;
             }
         } else if(this.current === this.WAITING_NEW_LINE_END) {
             if(char === '\n') {
@@ -189,7 +195,7 @@ class TrunkedBodyParser {
 
 async function test() {
   let request = new Request({
-    method: "POST",
+    method: "GET",
     host: '127.0.0.1',
     port: '8888',
     path: '/',
@@ -201,9 +207,8 @@ async function test() {
     }
   })
   
-  let result = await request.send()
-  console.log(result);
-  
+  let result = await request.send();
+  console.log(result);  
 }
 
 test()
