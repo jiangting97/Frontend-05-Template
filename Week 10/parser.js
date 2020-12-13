@@ -1,4 +1,6 @@
 const css = require('css')
+const EOF = Symbol("EOF")
+const layout = require("./layout.js")
 
 let currentToken = null;
 let currentAttribute = null;
@@ -110,9 +112,6 @@ function computeCSS(element) {
 }
 
 function emit(token) {
-    if(token.type === "text") {
-        return ;
-    }
     let top = stack[stack.length - 1]
 
     if (token.type === 'startTag') {
@@ -134,14 +133,13 @@ function emit(token) {
         }
 
         computeCSS(element)
-
+        layout(element);
         top.children.push(element)
         //element.parent = top
 
         if(!token.isSelfClosing) {
             stack.push(element)
         }
-
         currentTextNode = null
     } else if(token.type === 'endTag') {
         if (top.tagName !== token.tagName) {
@@ -153,6 +151,7 @@ function emit(token) {
             }
             stack.pop()
         }
+        layout(top);
         currentTextNode = null
     } else if(token.type === 'text') {
         if (currentTextNode === null) {
@@ -170,7 +169,7 @@ function emit(token) {
 
 
 // DOM
-const EOF = Symbol("EOF")
+
 function data(c) {
   if(c === "<") {
     return tagOpen;
@@ -199,7 +198,11 @@ function tagOpen(c) {
     }
     return tagName(c)
   } else {
-    return ;
+    emit({
+      type: "text",
+      content: c
+    })
+    return;
   }
 }
 
@@ -233,6 +236,7 @@ function tagName(c) {
     emit(currentToken)
     return data;
   } else {
+    currentToken.tagName += c;
     return tagName;
   }
 }
@@ -396,4 +400,5 @@ module.exports.parseHTML = function parseHtml(html) {
     state = state(c);
   }
   state = state(EOF)
+  return stack[0]
 }
