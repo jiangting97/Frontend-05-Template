@@ -38,10 +38,10 @@
 ### 选择器
 
 ####  基本选择器
-2. 元素选择器（Type selector）
-3. 类选择器（Class selector）
-4. ID 选择器（ID selector）
-5. 属性选择器（Attribute selector）
+1. 元素选择器（Type selector）
+1. 类选择器（Class selector）
+1. ID 选择器（ID selector）
+1. 属性选择器（Attribute selector）
 
 #### 组合器（Combinators）
 1. 后代组合器 
