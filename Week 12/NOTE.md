@@ -23,9 +23,7 @@ CSS选择器选中的元素 ，在排版时可能产生多个盒 。
 margin、padding content
 
 属性：box-sizing: content-box\border-box;
-evernotecid://D6110349-F532-4A4A-999B-0021D0140D85/appyinxiangcom/9084687/ENResource/p521
 
-![65aa9695459100b48affd37aa10a9e2d.png](evernotecid://D6110349-F532-4A4A-999B-0021D0140D85/appyinxiangcom/9084687/ENResource/p521)
 
 
 ### 正常流
