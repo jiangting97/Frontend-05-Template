@@ -34,16 +34,10 @@ margin、padding content
 * 计算盒在行中的排布
 * 计算行的排布
 
-![855448683382fbb36690db729b8ce7ff.png](evernotecid://D6110349-F532-4A4A-999B-0021D0140D85/appyinxiangcom/9084687/ENResource/p523)
 
 #### 正常流行级排布
 
 * baseline
-
-![e54c3c2f43b5c4a2d4e559b3390760e9.png](evernotecid://D6110349-F532-4A4A-999B-0021D0140D85/appyinxiangcom/9084687/ENResource/p526)
-
-
-![f301572f95cae81f9f1ab27336a75aba.png](evernotecid://D6110349-F532-4A4A-999B-0021D0140D85/appyinxiangcom/9084687/ENResource/p527)
 
 inline-block是随着基线进行变化。
 
@@ -149,7 +143,6 @@ matrix（a，b，c，d，e，f）：矩阵
 
 * 贝塞尔曲线
 
-
 #### 颜色
 
 * HSL
@@ -157,7 +150,12 @@ matrix（a，b，c，d，e，f）：矩阵
 
 #### 绘制
 
-![4b08e93b193f0918cdbb935ebd0e4178.png](evernotecid://D6110349-F532-4A4A-999B-0021D0140D85/appyinxiangcom/9084687/ENResource/p529)
+几何图形
+border、box-shadow、border-radius
+文字
+font、text-decoration
+位图
+background-image
 
 
 
