@@ -150,11 +150,11 @@ matrix（a，b，c，d，e，f）：矩阵
 
 #### 绘制
 
-几何图形
+- 几何图形
 border、box-shadow、border-radius
-文字
+- 文字
 font、text-decoration
-位图
+- 位图
 background-image
 
 
