@@ -212,12 +212,12 @@ devicePixelRatio:接口的devicePixelRatio返回当前显示设备的物理像�
 
 ### 其他API
 
-1. API来源：
+API来源：
 * khronos:WebGL
 * ECMA:ECMAScript
 * WHATWG:HTML
 * W3C: webaudio、CG（社区）/WG（工作组）
 
-1. 全部API的分类和整理
+全部API的分类和整理
 
 [https://spec.whatwg.org/](https://spec.whatwg.org/)
